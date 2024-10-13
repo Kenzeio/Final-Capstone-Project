@@ -7,6 +7,7 @@
                 <h1 class="text-3xl font-semibold text-gray-800">Sports</h1>
                 <h1 class="text-sm font-normal text-gray-700">List of Sports</h1>
             </div>
+            
             <!--Content-->
             <div class="mt-3 space-y-3">
                 <!--Utility-->
@@ -70,13 +71,11 @@
                                 </transition>
                             </Menu>
                             <p class="text-2xl text-gray-400 mb-1">|</p>
-                            <div class="text-sm font-medium text-gray-700">
-                                <p>Number of Sports: <span>4</span></p>
-                            </div>
+
                         </div>
                         <!--Buttons-->
                         <div class="flex items-center space-x-2.5">
-                            <button @click="openModal(false)" class="tooltip-btn bg-blue-800 text-white py-2 px-3 rounded-lg text-sm font-medium shadow hover:bg-blue-800/90 transition-colors" data-tooltip="Add new sport">
+                            <button @click="openModal(false)" class=" bg-blue-800 text-white py-2 px-3 rounded-lg text-sm font-medium shadow hover:bg-blue-800/90 transition-colors" >
                                 <i class="fa-solid fa-plus mr-1"></i>   
                                 Sport                             
                             </button>
@@ -192,7 +191,23 @@
                         </div>
                         <div class="flex justify-end">
                             <button type="button" @click="closeModal" class="mr-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 text-sm rounded-lg transition">Cancel</button>
-                            <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition">{{ isEditing ? 'Update College' : 'Add College' }}</button>
+                            <button
+                                type="submit"
+                                :disabled="form.processing"
+                                class="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition relative"
+                            >
+                                <span v-if="!form.processing">
+                                    {{ isEditing ? 'Update College' : 'Add College' }}
+                                </span>
+                                <span v-else>
+                                    <svg class="animate-spin h-4 w-4 mr-3 border-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.969 7.969 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Processing...
+                                </span>
+                            </button>
+
                         </div>
                     </form>
                 </div>
@@ -209,7 +224,13 @@
                     <p>Are you sure you want to remove this Venue from the list?</p>
                     <div class="flex justify-end mt-4">
                         <button type="button" @click="closeDeleteModal" class="mr-2 bg-gray-100  hover:bg-gray-200 px-4 py-2 rounded-lg text-sm transition">No, keep it</button>
-                        <button @click="deleteSport" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition">Yes, delete it</button>
+                        <button 
+                            :disabled="form.processing"
+                            @click="deleteSport" 
+                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition">
+                            <span v-if="form.processing">Deleting...</span>
+                            <span v-else>Yes, delete it</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -231,10 +252,7 @@
     import AppLayout from '@/Layout/DashboardLayout.vue';
     import Modal from '@/Components/Modal.vue';
 
-    const props = defineProps({
-        sports: Array,
-        errors: Object
-    })
+
 
     const isModalOpen = ref(false);
     const isDeleteModalOpen = ref(false);
