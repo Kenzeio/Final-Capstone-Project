@@ -221,7 +221,7 @@
                         <h2 class="text-xl font-bold">Confirm Delete</h2>
                         <i class="fa-regular fa-trash-can text-xl"></i>
                     </div>
-                    <p>Are you sure you want to remove this Venue from the list?</p>
+                    <p>Are you sure you want to remove this Sport from the list?</p>
                     <div class="flex justify-end mt-4">
                         <button type="button" @click="closeDeleteModal" class="mr-2 bg-gray-100  hover:bg-gray-200 px-4 py-2 rounded-lg text-sm transition">No, keep it</button>
                         <button 
